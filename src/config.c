@@ -330,8 +330,12 @@ load_config( const char *where )
 	char path[_POSIX_PATH_MAX];
 	char buf[1024];
 
+	char *home_config[_POSIX_PATH_MAX];
+	nfsnprintf(path, sizeof(path), "%s/.config", Home);
+	char *xdg_config_home = getenv("XDG_CONFIG_HOME");
+	const char *prefix = xdg_config_home ? xdg_config_home : (char *)home_config;
 	if (!where) {
-		nfsnprintf( path, sizeof(path), "%s/." EXE "rc", Home );
+		nfsnprintf( path, sizeof(path), "%s/isync/" EXE "rc", prefix );
 		cfile.file = path;
 	} else
 		cfile.file = where;
